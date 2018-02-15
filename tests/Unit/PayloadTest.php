@@ -10,13 +10,27 @@ class PayloadTest extends TestCase
     /** @test */
     public function it_generates_a_nonce()
     {
-        $uri = '/v1/order/status';
+        $endpoint = '/v1/order/status';
         $data = ['order_id' => 18834];
-        $payload = new Payload($uri, $data);
+        $payload = new Payload($endpoint, $data);
 
         $this->assertEquals(
             (string) round(microtime(true)),
             $payload->getNonce()
         );
+    }
+
+    /** @test */
+    public function it_converts_to_array()
+    {
+        $endpoint = '/v1/order/status';
+        $data = ['order_id' => 18834];
+        $payload = new Payload($endpoint, $data);
+
+        $this->assertEquals([
+            'request' => $endpoint,
+            'nonce' => $payload->getNonce(),
+            'order_id' => $data['order_id'],
+        ], $payload->toArray());
     }
 }

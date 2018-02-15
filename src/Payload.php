@@ -21,7 +21,7 @@ class Payload
     /**
      * The nonce for this payload.
      *
-     * @var string
+     * @var int
      */
     protected $nonce;
 
@@ -32,15 +32,15 @@ class Payload
     {
         $this->endpoint = $endpoint;
         $this->data = $data;
-        $this->nonce = (string) round(microtime(true));
+        $this->nonce = round(microtime(true));
     }
 
     /**
      * Get the generated nonce for this payload.
      *
-     * @return string
+     * @return int
      */
-    public function getNonce() : string
+    public function getNonce() : int
     {
         return $this->nonce;
     }
@@ -52,9 +52,14 @@ class Payload
      */
     public function toArray() : array
     {
-        return array_merge($this->data, [
+        return array_merge([
             'request' => $this->endpoint,
             'nonce' => $this->nonce,
-        ]);
+        ], $this->data);
+    }
+
+    public function toJson() : string
+    {
+        return json_encode($this->toArray());
     }
 }

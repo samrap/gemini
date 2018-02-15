@@ -14,10 +14,7 @@ class PayloadTest extends TestCase
         $data = ['order_id' => 18834];
         $payload = new Payload($endpoint, $data);
 
-        $this->assertEquals(
-            (string) round(microtime(true)),
-            $payload->getNonce()
-        );
+        $this->assertEquals(round(microtime(true)), $payload->getNonce());
     }
 
     /** @test */
@@ -32,5 +29,18 @@ class PayloadTest extends TestCase
             'nonce' => $payload->getNonce(),
             'order_id' => $data['order_id'],
         ], $payload->toArray());
+    }
+
+    /** @test */
+    public function it_converts_to_json()
+    {
+        $endpoint = '/v1/order/status';
+        $data = ['order_id' => 18834];
+        $payload = new Payload($endpoint, $data);
+
+        $this->assertEquals(
+            '{"request":"\/v1\/order\/status","nonce":'.$payload->getNonce().',"order_id":18834}',
+            $payload->toJson()
+        );
     }
 }

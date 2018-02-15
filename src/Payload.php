@@ -45,6 +45,11 @@ class Payload
         return $this->nonce;
     }
 
+    public function encode() : string
+    {
+        return base64_encode($this->toJson());
+    }
+
     /**
      * Convert the payload to an array.
      *

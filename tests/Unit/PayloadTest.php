@@ -43,4 +43,17 @@ class PayloadTest extends TestCase
             $payload->toJson()
         );
     }
+
+    /** @test */
+    public function it_base64_encodes_the_payload()
+    {
+        $endpoint = '/v1/order/status';
+        $data = ['order_id' => 18834];
+        $payload = new Payload($endpoint, $data);
+
+        $this->assertEquals(
+            base64_encode($payload->toJson()),
+            $payload->encode()
+        );
+    }
 }

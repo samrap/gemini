@@ -1,0 +1,29 @@
+{
+    "name": "samrap/gemini",
+    "description": "A Gemini API client for PHP developers.",
+    "keywords": ["gemini", "api", "client", "cryptocurrency", "bitcoin", "ethereum"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sam Rapaport",
+            "email": "me@samrapdev.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Samrap\\Gemini\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Samrap\\Gemini\\Tests\\": "tests/"
+        },
+        "files": []
+    },
+    "require": {
+        "php": ">=7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.0"
+    }
+}

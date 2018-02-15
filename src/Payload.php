@@ -65,6 +65,6 @@ class Payload
      */
     public function toJson() : string
     {
-        return json_encode($this->toArray());
+        return json_encode($this->toArray(), JSON_UNESCAPED_SLASHES);
     }
 }

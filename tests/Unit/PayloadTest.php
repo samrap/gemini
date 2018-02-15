@@ -39,7 +39,7 @@ class PayloadTest extends TestCase
         $payload = new Payload($endpoint, $data);
 
         $this->assertEquals(
-            '{"request":"\/v1\/order\/status","nonce":'.$payload->getNonce().',"order_id":18834}',
+            '{"request":"/v1/order/status","nonce":'.$payload->getNonce().',"order_id":18834}',
             $payload->toJson()
         );
     }

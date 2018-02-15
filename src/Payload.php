@@ -58,6 +58,11 @@ class Payload
         ], $this->data);
     }
 
+    /**
+     * Convert the payload to a JSON string.
+     *
+     * @return string
+     */
     public function toJson() : string
     {
         return json_encode($this->toArray());

@@ -45,6 +45,11 @@ class Payload
         return $this->nonce;
     }
 
+    /**
+     * Base64 encode the payload for a request.
+     *
+     * @return string
+     */
     public function encode() : string
     {
         return base64_encode($this->toJson());

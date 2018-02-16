@@ -9,7 +9,10 @@ use Http\Discovery\MessageFactoryDiscovery;
 use Http\Message\MessageFactory;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Samrap\Gemini\Exceptions\AuctionNotOpenException;
 use Samrap\Gemini\Exceptions\ClientException;
+use Samrap\Gemini\Exceptions\ClientOrderIdTooLongException;
+use Samrap\Gemini\Exceptions\GeminiException;
 
 class Gemini
 {
@@ -116,6 +119,10 @@ class Gemini
             throw new ClientException('An error occurred while talking to the API.', 0, $exception);
         }
 
+        if ($response->getStatusCode() !== 200) {
+            throw $this->createExceptionFromResponse($response);
+        }
+
         return $response;
     }
 
@@ -130,5 +137,23 @@ class Gemini
         $data = json_decode((string) $response->getBody(), true);
 
         return (is_array($data)) ? $data : [];
+    }
+
+    /**
+     * Given an error response, convert the payload into the respective exception.
+     *
+     * @param  \Psr\Http\Message\ResponseInterface  $response
+     * @return \Samrap\Gemini\Exceptions\GeminiException
+     */
+    protected function createExceptionFromResponse(ResponseInterface $response) : GeminiException
+    {
+        $payload = $this->getResponseJson($response);
+        $exception = __NAMESPACE__."\\Exceptions\\{$payload['reason']}Exception";
+
+        if (class_exists($exception)) {
+            return new $exception($payload['message']);
+        }
+
+        return new GeminiException('An unknown error occurred while talking to the API.');
     }
 }

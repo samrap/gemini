@@ -136,4 +136,43 @@ class GeminiTest extends TestCase
 
         $gemini->publicRequest('symbols');
     }
+
+    /**
+     * @test
+     * @expectedException \Samrap\Gemini\Exceptions\AuctionNotOpenException
+     * @expectedExceptionMessage Failed to place an auction-only order because there is no current auction open for this symbol
+     */
+    public function it_throws_the_respective_exception_from_an_error_response()
+    {
+        $this->sendFailedRequest(400, [
+            'result' => 'error',
+            'reason' => 'AuctionNotOpen',
+            'message' => 'Failed to place an auction-only order because there is no current auction open for this symbol',
+        ]);
+    }
+
+    /**
+     * Send a request that should
+     *
+     * @param  int  $statusCode  The expected response status code.
+     * @param  array  $errorPayload  The expected error payload.
+     * @throws \Samrap\Gemini\Excpetions\GeminiException
+     * @return void
+     */
+    private function sendFailedRequest(int $statusCode, array $errorPayload)
+    {
+        $key = 'mykey';
+        $secret = '1234abcd';
+        $client = new Client();
+        $response = $this->messageFactory->createResponse(
+            $statusCode,
+            null,
+            [],
+            json_encode($errorPayload)
+        );
+        $client->addResponse($response);
+        $gemini = new Gemini($key, $secret, $client);
+
+        $gemini->publicRequest('dummy');
+    }
 }

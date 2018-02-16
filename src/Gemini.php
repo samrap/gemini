@@ -14,7 +14,7 @@ use Samrap\Gemini\Exceptions\ClientException;
 use Samrap\Gemini\Exceptions\ClientOrderIdTooLongException;
 use Samrap\Gemini\Exceptions\GeminiException;
 
-class Gemini
+class Gemini implements PublicApi, PrivateApi
 {
     /** @var string */
     const BASE_URI = 'https://api.gemini.com/v1/';
@@ -68,14 +68,165 @@ class Gemini
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function symbols() : array
+    {
+        return $this->publicRequest('symbols');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function ticker(string $symbol) : array
+    {
+        return $this->publicRequest('pubticker/'.$symbol);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function currentOrderBook(string $symbol, array $urlParameters = []) : array
+    {
+        return $this->publicRequest('book/'.$symbol, $urlParameters);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function tradeHistory(string $symbol, array $urlParameters = []) : array
+    {
+        return $this->publicRequest('trades/'.$symbol, $urlParameters);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function currentAuction(string $symbol) : array
+    {
+        return $this->publicRequest('auction/'.$symbol);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function auctionHistory(string $symbol, array $urlParameters = []) : array
+    {
+        return $this->publicRequest('auction/'.$symbol.'/history', $urlParameters);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function newOrder(array $parameters) : array
+    {
+        return $this->privateRequest('order/new', $parameters);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function cancelOrder(array $parameters) : array
+    {
+        return $this->cancelOrder('order/cancel', $parameters);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function cancelAllSessionOrders() : array
+    {
+        return $this->privateRequest('order/cancel/session');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function cancelAllActiveOrders() : array
+    {
+        return $this->privateRequest('order/cancel/all');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function orderStatus(array $parameters) : array
+    {
+        return $this->privateRequest('order/status', $parameters);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getActiveOrders() : array
+    {
+        return $this->privateRequest('orders');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPastTrades(array $parameters) : array
+    {
+        return $this->privateRequest('mytrades', $parameters);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTradeVolume() : array
+    {
+        return $this->privateRequest('tradevolume');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getAvailableBalances() : array
+    {
+        return $this->privateRequest('balances');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function newDepositAddress(string $currency, array $parameters = []) : array
+    {
+        return $this->privateRequest('deposit/'.$currency.'/newAddress', $parameters);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function withdrawCryptoFundsToWhitelistedAddress(string $currency, array $parameters) : array
+    {
+        return $this->privateRequest('withdraw/'.$currency, $parameters);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function heartbeat() : array
+    {
+        return $this->privateRequest('heartbeat');
+    }
+
+    /**
      * Send a public request to the given API and return the respone JSON.
      *
      * @param  string  $api
+     * @param  array  $urlParameters
+     * @throws \Samrap\Gemini\Exceptions\GeminiException
      * @return array
      */
-    public function publicRequest(string $api) : array
+    public function publicRequest(string $api, array $urlParameters = []) : array
     {
         $uri = self::BASE_URI.trim($api, '/');
+
+        if (! empty($urlParameters)) {
+            $uri .= '?'.http_build_query($urlParameters);
+        }
+
         $request = $this->messageFactory->createRequest('GET', $uri);
 
         return $this->getResponseJson($this->send($request));
@@ -86,6 +237,7 @@ class Gemini
      *
      * @param  string  $api
      * @param  array  $data
+     * @throws \Samrap\Gemini\Exceptions\GeminiException
      * @return array
      */
     public function privateRequest(string $api, array $data = []) : array

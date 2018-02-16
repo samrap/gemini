@@ -19,6 +19,9 @@ class Gemini implements PublicApi, PrivateApi
     /** @var string */
     const BASE_URI = 'https://api.gemini.com/v1/';
 
+    /** @var string */
+    const API_VERSION = 'v1';
+
     /**
      * The API key.
      *
@@ -243,7 +246,8 @@ class Gemini implements PublicApi, PrivateApi
     public function privateRequest(string $api, array $data = []) : array
     {
         $uri = self::BASE_URI.trim($api, '/');
-        $payload = new Payload($uri, $data);
+        $endpoint = sprintf('/%s/%s', self::API_VERSION, trim($api, '/'));
+        $payload = new Payload($endpoint, $data);
         $request = $this->messageFactory->createRequest('POST', $uri, [
             'Content-Type' => 'text/plain',
             'Content-Length' => 0,

@@ -14,7 +14,7 @@ class GeminiTest extends TestCase
     private $messageFactory;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setUp()
     {
@@ -152,7 +152,7 @@ class GeminiTest extends TestCase
     }
 
     /**
-     * Send a request that should
+     * Send a request that should.
      *
      * @param  int  $statusCode  The expected response status code.
      * @param  array  $errorPayload  The expected error payload.

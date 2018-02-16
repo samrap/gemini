@@ -51,7 +51,7 @@ interface PublicApi
     ) : array;
 
     /**
-     * [currentAuction description]
+     * [currentAuction description].
      *
      * @param  string  $symbol
      * @throws \Samrap\Gemini\Exceptions\GeminiException

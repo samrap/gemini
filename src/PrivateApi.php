@@ -88,7 +88,10 @@ interface PrivateApi
      * @throws \Samrap\Gemini\Exceptions\GeminiException
      * @return array
      */
-    public function newDepositAddress(string $currency, array $parameters = []) : array;
+    public function newDepositAddress(
+        string $currency,
+        array $parameters = []
+    ) : array;
 
     /**
      * Withdraw crypto funds to a whitelisted address.

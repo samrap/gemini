@@ -9,9 +9,7 @@ use Http\Discovery\MessageFactoryDiscovery;
 use Http\Message\MessageFactory;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Samrap\Gemini\Exceptions\AuctionNotOpenException;
 use Samrap\Gemini\Exceptions\ClientException;
-use Samrap\Gemini\Exceptions\ClientOrderIdTooLongException;
 use Samrap\Gemini\Exceptions\GeminiException;
 
 class Gemini implements PublicApi, PrivateApi
@@ -272,7 +270,9 @@ class Gemini implements PublicApi, PrivateApi
         try {
             $response = $this->client->sendRequest($request);
         } catch (TransferException $exception) {
-            throw new ClientException('An error occurred while talking to the API.', 0, $exception);
+            throw new ClientException(
+                'An error occurred while talking to the API.', 0, $exception
+            );
         }
 
         if ($response->getStatusCode() !== 200) {
@@ -310,6 +310,8 @@ class Gemini implements PublicApi, PrivateApi
             return new $exception($payload['message']);
         }
 
-        return new GeminiException('An unknown error occurred while talking to the API.');
+        return new GeminiException(
+            'An unknown error occurred while talking to the API.'
+        );
     }
 }

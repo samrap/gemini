@@ -22,14 +22,18 @@ interface PublicApi
     public function ticker(string $symbol) : array;
 
     /**
-     * This will return the current order book, as two arrays, one of bids, and one of asks
+     * This will return the current order book, as two arrays, one of bids,
+     * and one of asks.
      *
      * @param  string  $symbol
      * @param  array  $urlParameters
      * @throws \Samrap\Gemini\Exceptions\GeminiException
      * @return array
      */
-    public function currentOrderBook(string $symbol, array $urlParameters = []) : array;
+    public function currentOrderBook(
+        string $symbol,
+        array $urlParameters = []
+    ) : array;
 
     /**
      * This will return the trades that have executed since the specified
@@ -41,7 +45,10 @@ interface PublicApi
      * @throws \Samrap\Gemini\Exceptions\GeminiException
      * @return array
      */
-    public function tradeHistory(string $symbol, array $urlParameters = []) : array;
+    public function tradeHistory(
+        string $symbol,
+        array $urlParameters = []
+    ) : array;
 
     /**
      * [currentAuction description]
@@ -61,5 +68,8 @@ interface PublicApi
      * @throws \Samrap\Gemini\Exceptions\GeminiException
      * @return array
      */
-    public function auctionHistory(string $symbol, array $urlParameters = []) : array;
+    public function auctionHistory(
+        string $symbol,
+        array $urlParameters = []
+    ) : array;
 }

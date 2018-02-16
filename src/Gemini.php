@@ -35,7 +35,7 @@ class Gemini implements PublicApi, PrivateApi
     protected $secret;
 
     /**
-     * The HTTP Client implementation
+     * The HTTP Client implementation.
      *
      * @var \Http\Client\HttpClient
      */
@@ -69,7 +69,7 @@ class Gemini implements PublicApi, PrivateApi
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function symbols() : array
     {
@@ -77,7 +77,7 @@ class Gemini implements PublicApi, PrivateApi
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function ticker(string $symbol) : array
     {
@@ -85,7 +85,7 @@ class Gemini implements PublicApi, PrivateApi
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function currentOrderBook(string $symbol, array $urlParameters = []) : array
     {
@@ -93,7 +93,7 @@ class Gemini implements PublicApi, PrivateApi
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function tradeHistory(string $symbol, array $urlParameters = []) : array
     {
@@ -101,7 +101,7 @@ class Gemini implements PublicApi, PrivateApi
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function currentAuction(string $symbol) : array
     {
@@ -109,7 +109,7 @@ class Gemini implements PublicApi, PrivateApi
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function auctionHistory(string $symbol, array $urlParameters = []) : array
     {
@@ -117,7 +117,7 @@ class Gemini implements PublicApi, PrivateApi
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function newOrder(array $parameters) : array
     {
@@ -125,7 +125,7 @@ class Gemini implements PublicApi, PrivateApi
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function cancelOrder(array $parameters) : array
     {
@@ -133,7 +133,7 @@ class Gemini implements PublicApi, PrivateApi
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function cancelAllSessionOrders() : array
     {
@@ -141,7 +141,7 @@ class Gemini implements PublicApi, PrivateApi
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function cancelAllActiveOrders() : array
     {
@@ -149,7 +149,7 @@ class Gemini implements PublicApi, PrivateApi
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function orderStatus(array $parameters) : array
     {
@@ -157,7 +157,7 @@ class Gemini implements PublicApi, PrivateApi
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getActiveOrders() : array
     {
@@ -165,7 +165,7 @@ class Gemini implements PublicApi, PrivateApi
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getPastTrades(array $parameters) : array
     {
@@ -173,7 +173,7 @@ class Gemini implements PublicApi, PrivateApi
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getTradeVolume() : array
     {
@@ -181,7 +181,7 @@ class Gemini implements PublicApi, PrivateApi
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getAvailableBalances() : array
     {
@@ -189,7 +189,7 @@ class Gemini implements PublicApi, PrivateApi
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function newDepositAddress(string $currency, array $parameters = []) : array
     {
@@ -197,7 +197,7 @@ class Gemini implements PublicApi, PrivateApi
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function withdrawCryptoFundsToWhitelistedAddress(string $currency, array $parameters) : array
     {
@@ -205,7 +205,7 @@ class Gemini implements PublicApi, PrivateApi
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function heartbeat() : array
     {

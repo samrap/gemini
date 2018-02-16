@@ -40,7 +40,7 @@ interface PrivateApi
     public function cancelAllActiveOrders() : array;
 
     /**
-     * Gets the status for an order
+     * Gets the status for an order.
      *
      * @throws \Samrap\Gemini\Exceptions\GeminiException
      * @return array

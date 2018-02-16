@@ -2,11 +2,14 @@
 
 namespace Samrap\Gemini;
 
-use GuzzleHttp\Psr7\Response;
+use Http\Client\Exception\TransferException;
 use Http\Client\HttpClient;
 use Http\Discovery\HttpClientDiscovery;
 use Http\Discovery\MessageFactoryDiscovery;
 use Http\Message\MessageFactory;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Samrap\Gemini\Exceptions\ClientException;
 
 class Gemini
 {
@@ -49,8 +52,12 @@ class Gemini
      * @param  \Http\Client\HttpClient|null  $client
      * @param  \Http\Message\MessageFactory|null  $messageFactory
      */
-    public function __construct(string $key, string $secret, HttpClient $client = null, MessageFactory $messageFactory = null)
-    {
+    public function __construct(
+        string $key,
+        string $secret,
+        HttpClient $client = null,
+        MessageFactory $messageFactory = null
+    ) {
         $this->key = $key;
         $this->secret = $secret;
         $this->client = $client ?: HttpClientDiscovery::find();
@@ -58,39 +65,70 @@ class Gemini
     }
 
     /**
-     * Send a public request to the given API and retrieve the response.
+     * Send a public request to the given API and return the respone JSON.
      *
      * @param  string  $api
-     * @return \GuzzleHttp\Psr7\Response
+     * @return array
      */
-    public function publicRequest(string $api) : Response
+    public function publicRequest(string $api) : array
     {
         $uri = self::BASE_URI.trim($api, '/');
         $request = $this->messageFactory->createRequest('GET', $uri);
 
-        return $this->client->sendRequest($request);
+        return $this->getResponseJson($this->send($request));
     }
 
     /**
-     * [privateRequest description]
+     * Send a private request to the given API and return the response JSON.
+     *
      * @param  string  $api
      * @param  array  $data
-     * @return \GuzzleHttp\Psr7\Response
+     * @return array
      */
-    public function privateRequest(string $api, array $data = []) : Response
+    public function privateRequest(string $api, array $data = []) : array
     {
         $uri = self::BASE_URI.trim($api, '/');
         $payload = new Payload($uri, $data);
-        $headers = [
+        $request = $this->messageFactory->createRequest('POST', $uri, [
             'Content-Type' => 'text/plain',
             'Content-Length' => 0,
             'X-GEMINI-APIKEY' => $this->key,
             'X-GEMINI-PAYLOAD' => $payload->encode(),
             'X-GEMINI-SIGNATURE' => Signature::generate($payload, $this->secret),
-        ];
+            'Cache-Control' => 'no-cache',
+        ]);
 
-        $request = $this->messageFactory->createRequest('POST', $uri, $headers);
+        return $this->getResponseJson($this->send($request));
+    }
 
-        return $this->client->sendRequest($request);
+    /**
+     * Send a request and return the response.
+     *
+     * @param  \Psr\Http\Message\RequestInterface  $request
+     * @throws \Samrap\Gemini\Exceptions\GeminiException
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    protected function send(RequestInterface $request) : ResponseInterface
+    {
+        try {
+            $response = $this->client->sendRequest($request);
+        } catch (TransferException $exception) {
+            throw new ClientException('An error occurred while talking to the API.', 0, $exception);
+        }
+
+        return $response;
+    }
+
+    /**
+     * Get the JSON from the HTTP response as an associative array.
+     *
+     * @param  \Psr\Http\Message\ResponseInterface  $response
+     * @return array
+     */
+    protected function getResponseJson(ResponseInterface $response) : array
+    {
+        $data = json_decode((string) $response->getBody(), true);
+
+        return (is_array($data)) ? $data : [];
     }
 }

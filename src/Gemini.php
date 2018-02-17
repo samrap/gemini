@@ -57,8 +57,8 @@ class Gemini implements PublicApi, PrivateApi
      * @param  \Http\Message\MessageFactory|null  $messageFactory
      */
     public function __construct(
-        string $key,
-        string $secret,
+        string $key = '',
+        string $secret = '',
         HttpClient $client = null,
         MessageFactory $messageFactory = null
     ) {

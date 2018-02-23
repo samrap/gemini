@@ -152,6 +152,20 @@ class GeminiTest extends TestCase
     }
 
     /**
+     * @test
+     * @expectedException \Samrap\Gemini\Exceptions\GeminiException
+     * @expectedExceptionMessage [Bad Request] Supplied parameter is not a valid option
+     */
+    public function unknown_exception_contains_reason_and_message()
+    {
+        $this->sendFailedRequest(400, [
+            'result' => 'error',
+            'reason' => 'Bad Request',
+            'message' => 'Supplied parameter is not a valid option',
+        ]);
+    }
+
+    /**
      * Send a request that should.
      *
      * @param  int  $statusCode  The expected response status code.

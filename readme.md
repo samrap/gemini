@@ -1,6 +1,8 @@
-# Gemini API Client
+<p align="center"><img src="https://i.imgur.com/h9xKBkQ.png" /></p>
 
-[![Travis](https://img.shields.io/travis/samrap/gemini.svg?style=flat-square)](https://github.com/samrap/gemini)
+<p align="center">
+    <a href="https://github.com/samrap/gemini"><img src="https://img.shields.io/travis/samrap/gemini.svg?style=flat-square" alt="Build Status" /></a>
+</p>
 
 ---
 

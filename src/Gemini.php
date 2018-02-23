@@ -310,8 +310,6 @@ class Gemini implements PublicApi, PrivateApi
             return new $exception($payload['message']);
         }
 
-        return new GeminiException(
-            'An unknown error occurred while talking to the API.'
-        );
+        return new GeminiException("[{$payload['reason']}] {$payload['message']}");
     }
 }

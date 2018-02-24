@@ -270,9 +270,7 @@ class Gemini implements PublicApi, PrivateApi
         try {
             $response = $this->client->sendRequest($request);
         } catch (TransferException $exception) {
-            throw new ClientException(
-                'An error occurred while talking to the API.', 0, $exception
-            );
+            throw new ClientException('An error occurred while talking to the API.', 0, $exception);
         }
 
         if ($response->getStatusCode() !== 200) {

@@ -129,7 +129,7 @@ class Gemini implements PublicApi, PrivateApi
      */
     public function cancelOrder(array $parameters) : array
     {
-        return $this->cancelOrder('order/cancel', $parameters);
+        return $this->privateRequest('order/cancel', $parameters);
     }
 
     /**

@@ -18,6 +18,9 @@ class Gemini implements PublicApi, PrivateApi
     const BASE_URI = 'https://api.gemini.com/v1/';
 
     /** @var string */
+    const SANDBOX_BASE_URI = 'https://api.sandbox.gemini.com/v1/';
+
+    /** @var string */
     const API_VERSION = 'v1';
 
     /**
@@ -49,23 +52,33 @@ class Gemini implements PublicApi, PrivateApi
     protected $messageFactory;
 
     /**
+     * Whether or not to use the sandbox API.
+     *
+     * @var bool
+     */
+    protected $sandbox;
+
+    /**
      * Create a new instance.
      *
      * @param  string  $key
      * @param  string  $secret
      * @param  \Http\Client\HttpClient|null  $client
      * @param  \Http\Message\MessageFactory|null  $messageFactory
+     * @param  bool  $sandbox
      */
     public function __construct(
         string $key = '',
         string $secret = '',
         HttpClient $client = null,
-        MessageFactory $messageFactory = null
+        MessageFactory $messageFactory = null,
+        bool $sandbox = false
     ) {
         $this->key = $key;
         $this->secret = $secret;
         $this->client = $client ?: HttpClientDiscovery::find();
         $this->messageFactory = $messageFactory ?: MessageFactoryDiscovery::find();
+        $this->sandbox = $sandbox;
     }
 
     /**
@@ -222,7 +235,7 @@ class Gemini implements PublicApi, PrivateApi
      */
     public function publicRequest(string $api, array $urlParameters = []) : array
     {
-        $uri = self::BASE_URI.trim($api, '/');
+        $uri = $this->getBaseUri().trim($api, '/');
 
         if (! empty($urlParameters)) {
             $uri .= '?'.http_build_query($urlParameters);
@@ -243,7 +256,7 @@ class Gemini implements PublicApi, PrivateApi
      */
     public function privateRequest(string $api, array $data = []) : array
     {
-        $uri = self::BASE_URI.trim($api, '/');
+        $uri = $this->getBaseUri().trim($api, '/');
         $endpoint = sprintf('/%s/%s', self::API_VERSION, trim($api, '/'));
         $payload = new Payload($endpoint, $data);
         $request = $this->messageFactory->createRequest('POST', $uri, [
@@ -309,5 +322,15 @@ class Gemini implements PublicApi, PrivateApi
         }
 
         return new GeminiException("[{$payload['reason']}] {$payload['message']}");
+    }
+
+    /**
+     * Get the base URI for the request.
+     *
+     * @return string
+     */
+    protected function getBaseUri() : string
+    {
+        return ($this->sandbox) ? self::SANDBOX_BASE_URI : self::BASE_URI;
     }
 }

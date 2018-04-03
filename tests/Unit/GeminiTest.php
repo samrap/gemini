@@ -39,6 +39,20 @@ class GeminiTest extends TestCase
     }
 
     /** @test */
+    public function it_supports_sandbox_mode()
+    {
+        $client = new Client();
+        $gemini = new Gemini('', '', $client, null, true);
+
+        $gemini->publicRequest('symbols');
+
+        $this->assertEquals(
+            'https://api.sandbox.gemini.com/v1/symbols',
+            (string) $client->getRequests()[0]->getUri()
+        );
+    }
+
+    /** @test */
     public function it_sends_a_private_request()
     {
         $key = 'mykey';

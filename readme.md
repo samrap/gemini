@@ -39,12 +39,12 @@ That's all you have to do to get started. The client will automatically find you
 
 ### Basic Usage
 
-In order to talk to the API, you will need to create an instance of the `Samrap\Gemini\Gemini` class. This class implements the API contracts necessary for you to do everything the REST API has to offer.
+In order to talk to the API, you will need to create an instance of the `Cloudstacks\Gemini\Gemini` class. This class implements the API contracts necessary for you to do everything the REST API has to offer.
 
 The class takes two arguments, a `key` and `secret`, which are your API key and secret, respectively. Of course, if you only plan on using the [Public APIs](https://docs.gemini.com/rest-api/#symbols), you may ignore these arguments:
 
 ```php
-use Samrap\Gemini\Gemini;
+use Cloudstacks\Gemini\Gemini;
 
 $key = 'mykey';
 $secret = '1234abcd'
@@ -104,19 +104,19 @@ That's it! If the request was successful, the value of `$order` will be an assoc
 
 ### API Reference
 
-The Gemini client implements two contracts, `Samrap\Gemini\PublicApi` and `Samrap\Gemini\PrivateApi`. These contracts contain the API methods and their parameters, should you need a reference.
+The Gemini client implements two contracts, `Cloudstacks\Gemini\PublicApi` and `Cloudstacks\Gemini\PrivateApi`. These contracts contain the API methods and their parameters, should you need a reference.
 
 ### Error Handling
 
-The Gemini client automatically converts all API errors into exceptions named after the **reason** in each [Error Payload](https://docs.gemini.com/rest-api/#error-payload). An `AuctionNotOpen` error will throw a `Samrap\Gemini\Exceptions\AuctionNotOpenException`, a `ClientOrderIdTooLong` will throw a `Samrap\Gemini\Exceptions\ClientOrderIdTooLongException`, etc. Every exception extends the `Samrap\Gemini\Exceptions\GeminiException`. This gives you great flexibility to handle specific errors you might expect, while adding a catch-all at the end. 
+The Gemini client automatically converts all API errors into exceptions named after the **reason** in each [Error Payload](https://docs.gemini.com/rest-api/#error-payload). An `AuctionNotOpen` error will throw a `Cloudstacks\Gemini\Exceptions\AuctionNotOpenException`, a `ClientOrderIdTooLong` will throw a `Samrap\Gemini\Exceptions\ClientOrderIdTooLongException`, etc. Every exception extends the `Samrap\Gemini\Exceptions\GeminiException`. This gives you great flexibility to handle specific errors you might expect, while adding a catch-all at the end. 
 
 Imagine we are writing a method to allow users to check the status of their orders. A lot can go wrong. A user might enter the incorrect order ID, so we will need to account for that. Additionally, the API might be down for maintenance and we certainly would want to log that information. Just to be safe, we should log any other error that _could_ occur. Ok, let's write it:
 
 ```php
 
-use Samrap\Gemini\Exceptions\GeminiException;
-use Samrap\Gemini\Exceptions\MaintenanceException;
-use Samrap\Gemini\Exceptions\OrderNotFoundException;
+use Cloudstacks\Gemini\Exceptions\GeminiException;
+use Cloudstacks\Gemini\Exceptions\MaintenanceException;
+use Cloudstacks\Gemini\Exceptions\OrderNotFoundException;
 
 // ...
 

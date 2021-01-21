@@ -1,6 +1,6 @@
 <?php
 
-namespace Samrap\Gemini\Exceptions;
+namespace Cloudstacks\Gemini\Exceptions;
 
 class InvalidNonceException extends GeminiException
 {

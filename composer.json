@@ -1,5 +1,5 @@
 {
-    "name": "samrap/gemini",
+    "name": "cloudstacks/gemini",
     "description": "A Gemini API client for PHP developers.",
     "keywords": ["gemini", "api", "client", "cryptocurrency", "bitcoin", "ethereum"],
     "license": "MIT",
@@ -11,12 +11,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "Samrap\\Gemini\\": "src/"
+            "Cloudstacks\\Gemini\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Samrap\\Gemini\\Tests\\": "tests/"
+            "Cloudstacks\\Gemini\\Tests\\": "tests/"
         },
         "files": []
     },

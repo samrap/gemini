@@ -1,6 +1,6 @@
 <?php
 
-namespace Samrap\Gemini;
+namespace Cloudstacks\Gemini;
 
 interface PrivateApi
 {

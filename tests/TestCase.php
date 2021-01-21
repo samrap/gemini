@@ -1,6 +1,6 @@
 <?php
 
-namespace Samrap\Gemini\Tests;
+namespace Cloudstacks\Gemini\Tests;
 
 use Http\Discovery\HttpClientDiscovery;
 use Http\Discovery\Strategy\MockClientStrategy;

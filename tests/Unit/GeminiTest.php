@@ -1,12 +1,12 @@
 <?php
 
-namespace Samrap\Gemini\Tests\Unit;
+namespace Cloudstacks\Gemini\Tests\Unit;
 
 use Http\Client\Exception\TransferException;
 use Http\Message\MessageFactory\GuzzleMessageFactory;
 use Http\Mock\Client;
-use Samrap\Gemini\Gemini;
-use Samrap\Gemini\Tests\TestCase;
+use Cloudstacks\Gemini\Gemini;
+use Cloudstacks\Gemini\Tests\TestCase;
 
 class GeminiTest extends TestCase
 {

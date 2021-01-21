@@ -1,10 +1,10 @@
 <?php
 
-namespace Samrap\Gemini\Tests\Unit;
+namespace Cloudstacks\Gemini\Tests\Unit;
 
-use Samrap\Gemini\Payload;
-use Samrap\Gemini\Signature;
-use Samrap\Gemini\Tests\TestCase;
+use Cloudstacks\Gemini\Payload;
+use Cloudstacks\Gemini\Signature;
+use Cloudstacks\Gemini\Tests\TestCase;
 
 class SignatureTest extends TestCase
 {

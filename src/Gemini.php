@@ -1,6 +1,6 @@
 <?php
 
-namespace Samrap\Gemini;
+namespace Cloudstacks\Gemini;
 
 use Http\Client\Exception\TransferException;
 use Http\Client\HttpClient;
@@ -9,8 +9,8 @@ use Http\Discovery\MessageFactoryDiscovery;
 use Http\Message\MessageFactory;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Samrap\Gemini\Exceptions\ClientException;
-use Samrap\Gemini\Exceptions\GeminiException;
+use Cloudstacks\Gemini\Exceptions\ClientException;
+use Cloudstacks\Gemini\Exceptions\GeminiException;
 
 class Gemini implements PublicApi, PrivateApi
 {
